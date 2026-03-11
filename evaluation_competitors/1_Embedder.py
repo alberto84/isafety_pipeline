@@ -251,7 +251,7 @@ def main():
 
     # ========== GEMMA EMBEDDINGS ==========
     logger.info("Loading GEMMA model and encoding abstracts...")
-    model_gemma = SentenceTransformer('google/embeddinggemma-300m', use_auth_token='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')
+    model_gemma = SentenceTransformer('google/embeddinggemma-300m', use_auth_token='<HERE_YOUR_TOKEN>')
     emb_train_gemma = model_gemma.encode(df_train['abstract'].tolist())
     emb_val_gemma = model_gemma.encode(df_validation['abstract'].tolist())
     emb_test_gemma = model_gemma.encode(df_test['abstract'].tolist())
