@@ -51,7 +51,7 @@ LOG_DIR = "log"
 # -------------------------------
 os.makedirs(LOG_DIR, exist_ok=True)
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-log_filename = f"4_llm_evaluation_with_expert_{timestamp}.log"
+log_filename = f"4_llm_evaluation_without_expert_{timestamp}.log"
 log_filepath = os.path.join(LOG_DIR, log_filename)
 
 logging.basicConfig(
