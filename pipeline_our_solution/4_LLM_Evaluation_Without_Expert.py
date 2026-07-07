@@ -228,7 +228,7 @@ def evaluate_classification_metrics(df, plot_confusion_matrix=True):
         'timestamp': datetime.now().isoformat()
     }
 
-    save_results_to_file('output/classification_report_test.xlsx', results, desc_dict)
+    save_results_to_file('output/classification_report_test_without_expert.xlsx', results, desc_dict)
 
     logger.info("Classification Report saved")
     logger.info(results)
@@ -251,7 +251,7 @@ def evaluate_classification_metrics(df, plot_confusion_matrix=True):
         plt.xlabel('Predicted Label')
         plt.title('Confusion Matrix - Test Set (0-1-2 mapping)')
         plt.tight_layout()
-        plt.savefig('output/confusion_matrix_test.png', dpi=300, bbox_inches='tight')
+        plt.savefig('output/confusion_matrix_test_without_expert.png', dpi=300, bbox_inches='tight')
         plt.show()
 
     return metrics
@@ -285,7 +285,7 @@ def main():
     df_test['y_pred'] = df_test.apply(calculate_pred, axis=1)
 
     # Save full results
-    df_test.to_parquet('output/test_llm_predictions.parquet', engine='pyarrow', index=False)
+    df_test.to_parquet('output/test_llm_predictions_without_expert.parquet', engine='pyarrow', index=False)
     logger.info("Saved: test_llm_predictions.parquet")
 
     # Evaluate
@@ -293,7 +293,7 @@ def main():
 
     # Metrics summary
     metrics_summary = {'dataset': 'test', **metrics}
-    pd.DataFrame([metrics_summary]).to_csv('output/test_metrics.csv', index=False)
+    pd.DataFrame([metrics_summary]).to_csv('output/test_metrics_without_expert.csv', index=False)
 
 
     df_filtered = df_test[['report_num', 'Report ID', 'severity_level', 'system_prompt', 'user_prompt']].copy()
