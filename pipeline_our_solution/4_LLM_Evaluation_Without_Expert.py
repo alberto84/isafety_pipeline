@@ -78,14 +78,25 @@ class ClsResponse(BaseModel):
 
 def make_call_to_llm(abstract, result_str):
     response = ollama.chat(
-        model='gemma2',
+        model="qwen36:35B",
         format=ClsResponse.model_json_schema(),
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
-            {'role': 'user', 'content': USER_PROMPT.format(samples=result_str, text=abstract)},
-        ])
-
-    cls_response = ClsResponse.model_validate_json(response['message']['content'])
+            {
+                "role": "user",
+                "content": USER_PROMPT.format(
+                    samples=result_str,
+                    text=abstract,
+                ),
+            },
+        ],
+        options={
+            "num_ctx": 65000,
+            "truncate": False,
+        },
+    )
+    
+    cls_response = ClsResponse.model_validate_json(response["message"]["content"])
     return cls_response
 
 
