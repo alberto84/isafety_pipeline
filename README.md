@@ -40,6 +40,7 @@ The repository includes the following files and folders:
 - `evaluation_competitors/2_XGboost.py`: XGBoost baseline.
 - `evaluation_competitors/2_LSTM.py`: PyTorch LSTM baseline.
 - `evaluation_competitors/2_KMEANS.py`: K-Means baseline.
+- `evaluation_competitors/Baseline_models.py`: Baseline models.
 - `README.md`: this file.
 
 Generated outputs are written to local `output/` folders inside the corresponding pipeline directories. Runtime logs are written to local `log/` folders.
