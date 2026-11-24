@@ -22,7 +22,7 @@ The proposed solution defines a pipeline, that includes:
 - optional domain expert knowledge in the system prompt;
 - probability-based severity prediction and textual explanations.
 
-In the experiments reported in the paper, the proposed framework achieved an accuracy of `0.860` and a macro-F1 score of `0.836`, outperforming the evaluated traditional ML, neural, and literature-inspired baselines.
+In the experiments reported in the paper, the proposed framework outperformed all the evaluated baselines, whether traditional machine learning, neural, or literature-inspired, in terms of both accuracy and macro-F1.
 
 ## Repository Structure
 
