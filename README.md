@@ -41,6 +41,7 @@ The repository includes the following files and folders:
 - `evaluation_competitors/2_LSTM.py`: PyTorch LSTM baseline.
 - `evaluation_competitors/2_KMEANS.py`: K-Means baseline.
 - `evaluation_competitors/Baseline_models.py`: Baseline models.
+- `requirements.txt`: Python dependencies required to run the pipelines.
 - `README.md`: this file.
 
 Generated outputs are written to local `output/` folders inside the corresponding pipeline directories. Runtime logs are written to local `log/` folders.
@@ -55,7 +56,8 @@ isafety_pipeline-main/
 |   |-- NEW_OSHA_DATABASE_FILTERED_SIC_NAICS.xlsx
 |   `-- aria_reports_final_clean.xlsx
 |-- pipeline_our_solution/
-`-- evaluation_competitors/
+|-- evaluation_competitors/
+`-- requirements.txt
 ```
 
 Expected input files:
@@ -80,22 +82,28 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 ```
 
-Install the required Python packages:
+Install the required Python packages from `requirements.txt` (located at the repository root):
 
 ```bash
-python -m pip install pandas numpy torch transformers datasets tqdm scikit-learn scipy pyclustering joblib pyarrow matplotlib seaborn ollama pydantic sentence-transformers xgboost openpyxl
+python -m pip install -r requirements.txt
+```
+
+The file lists the dependencies with minimum supported versions (tested with Python 3.10 up to 3.13). The paper reports results obtained with `torch 2.7` and `transformers 4.52.4`. To record the exact environment of your own runs, save it with:
+
+```bash
+python -m pip freeze > requirements-lock.txt
 ```
 
 For GPU-enabled PyTorch installations, follow the official PyTorch installation command matching your CUDA version.
 
 ## Ollama Setup
 
-The LLM evaluation scripts call a local Ollama server at `http://localhost:11434` and use the `gemma2` model.
+The LLM evaluation scripts call a local Ollama server at `http://localhost:11434` and use the `gemma2:9b` model.
 
 Install Ollama and pull the model:
 
 ```bash
-ollama pull gemma2
+ollama pull gemma2:9b
 ```
 
 Start the Ollama server before running the LLM evaluation scripts:
@@ -126,7 +134,7 @@ This produces:
 output/NEW_OSHA_DATABASE_FILTERED_SIC_NAICS_embeddings.parquet
 ```
 
-2. Reduce embeddings with the autoencoder:
+1. Reduce embeddings with the autoencoder:
 
 ```bash
 python 2_Data_Reduction.py --latent_dim 128
@@ -138,7 +146,7 @@ This produces:
 output/NEW_OSHA_DATABASE_FILTERED_SIC_NAICS_embeddings_reduced.parquet
 ```
 
-3. Cluster reports and create train, validation, and test partitions:
+1. Cluster reports and create train, validation, and test partitions:
 
 ```bash
 python 3_Clustering.py --num_clusters 4
@@ -154,13 +162,13 @@ output/cluster_validation.parquet
 output/cluster_test.parquet
 ```
 
-4. Evaluate the LLM-based classifier with domain expert knowledge:
+1. Evaluate the LLM-based classifier with domain expert knowledge:
 
 ```bash
 python 4_LLM_Evaluation_With_Expert.py
 ```
 
-5. Optionally run the ablation without domain expert knowledge:
+1. Optionally run the ablation without domain expert knowledge:
 
 ```bash
 python 4_LLM_Evaluation_Without_Expert.py
